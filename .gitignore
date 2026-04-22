@@ -1,0 +1,24 @@
+# Секреты и конфигурации
+.env
+.env.local
+config.json
+venv
+
+
+# Зависимости
+node_modules/
+/vendor
+
+# IDE и системы
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Логи и отчеты
+*.log
+coverage/
+
+.csv
+data
+

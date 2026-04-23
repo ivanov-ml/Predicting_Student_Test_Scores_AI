@@ -1,3 +1,20 @@
 # Predicting Student Test Scores
 * Link: https://www.kaggle.com/competitions/playground-series-s6e1
 * To load data: run data_loader.py
+
+## Dataset Description
+The dataset for this competition (both train and test) was generated from a deep learning model trained on the Exam score prediction dataset. Feature distributions are close to, but not exactly the same, as the original. Feel free to use the original dataset as part of this competition, both to explore differences as well as to see whether incorporating the original in training improves model performance.
+
+## Files
+* train.csv - the training set
+* test.csv - the test set
+* sample_submission.csv - a sample submission file in the correct format
+
+## EDA and data prepare
+* To explore EDA check: EDA_and_data_prepare.py
+* Matrix of correlation:
+![img.png](img.png)
+* Matrix of correlation(most important and normalized features):
+![img_1.png](img_1.png)
+* To get cleaned and scaled data for training, run EDA_and_data_prepare.py and find train_data_cleaned_scaled.csv.
+

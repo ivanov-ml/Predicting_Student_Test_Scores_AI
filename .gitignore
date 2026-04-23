@@ -21,4 +21,5 @@ coverage/
 
 .csv
 data
+train_data_cleaned_scaled.csv
 

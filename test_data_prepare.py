@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 
-path_to_row_data = '/Users/dmitrii/PycharmProjects/Students_score/data/playground-series-s6e1/train.csv'
+path_to_row_data = '/Users/dmitrii/PycharmProjects/Students_score/data/playground-series-s6e1/test.csv'
 row_data = pd.read_csv(path_to_row_data)
 #print(row_data['gender'].unique())#все уникальные значения из столбца пол
 row_data['gender'].replace({'female': 0, 'male': 1, 'other':2},  inplace=True)#заменяем на числа
@@ -51,7 +51,7 @@ print(data_scaled)
 
 
 # Сохранение в CSV
-data_scaled.to_csv('train_data_cleaned_scaled.csv', index=False)
+data_scaled.to_csv('test_data_cleaned_scaled.csv', index=False)
 
 
 

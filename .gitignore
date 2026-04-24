@@ -19,7 +19,7 @@ node_modules/
 *.log
 coverage/
 
-.csv
+*.csv
 data
 train_data_cleaned_scaled.csv
-
+*.pkl

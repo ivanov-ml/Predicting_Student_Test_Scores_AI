@@ -17,23 +17,46 @@ row_data['facility_rating'].replace({'low': 0, 'medium': 1, 'high': 2},  inplace
 row_data['sleep_quality'].replace({'poor': 0, 'average': 1, 'good': 2},  inplace=True)#заменяем на числа
 #print(row_data['internet_access'].unique())#все уникальные значения из столбца доступ в интернет
 row_data['internet_access'].replace({'no': 0, 'yes': 1},  inplace=True)#заменяем на числа
+course_mapping = {
+    'b.tech': 1,    # 1 для "Технарь"
+    'b.sc': 1,
+    'bca': 1,
+    'diploma': 1,
+    'ba': 0,        # 0 для "Гуманитарий"
+    'b.com': 0,
+    'bba': 0
+}
+#row_data['is_stem'] = row_data['course'].map(course_mapping)#не дало хороших корреляций между технарями и гуманитариями
+#print(row_data[['course', 'is_stem']].drop_duplicates())
+#print(row_data['course'].unique())#все уникальные значения из столбца курс
+row_data['course'].replace({'b.sc': 0, 'diploma': 1, 'bca' : 2, 'b.com' : 3, 'ba': 4, 'bba': 5, 'b.tech' : 6},  inplace=True)#заменяем на числа
+row_data['nerd'] = row_data['sleep_hours'] + row_data['sleep_quality'] + row_data['class_attendance'] + row_data['study_hours']
+row_data['conditions'] = row_data['sleep_hours'] + row_data['sleep_quality'] + row_data['internet_access'] + row_data['facility_rating'] + row_data['study_method'] - row_data['exam_difficulty']
+row_data['write_off'] = row_data['internet_access'] - row_data['nerd']
+row_data['luck'] = row_data['conditions'] + row_data['nerd']
+row_data['effective_study'] = row_data['study_hours'] * row_data['sleep_quality']
+row_data['fatigue_penalty'] = row_data['study_hours'] / row_data['sleep_hours']
+row_data['cheating_risk'] = row_data['internet_access']*(1/(row_data['nerd']+1))
+
+
 
 #print(row_data.columns)
 corr_matrix = row_data.corr()# матрица корреляции по всем данным
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')#тепловая карта
-#plt.show()
+plt.show()
 
-data_clean = row_data.drop(['id', 'age', 'gender', 'course', 'internet_access', 'exam_difficulty'], axis=1)#убрали маловажные признаки
+data_clean = row_data.drop(['id', 'age', 'gender', 'course', 'internet_access', 'exam_difficulty', 'study_method',
+                            'sleep_hours','sleep_quality', 'facility_rating' ], axis=1)#убрали маловажные признаки
 
 #print(data_clean.columns)
 corr_matrix_clean = data_clean.corr()# матрица корреляции по самым важным данным
 sns.heatmap(corr_matrix_clean, annot=True, cmap='coolwarm')#тепловая карта
-#plt.show()
+plt.show()
 
 
 # 1. Список признаков для масштабирования
-features_to_scale = ['study_hours', 'class_attendance', 'sleep_hours',
-                     'sleep_quality', 'study_method', 'facility_rating']
+features_to_scale = ['study_hours', 'class_attendance',   'nerd', 'conditions', 'write_off', 'luck',
+                     'effective_study', 'fatigue_penalty','cheating_risk']
 
 # 2. Создаем копию датафрейма, чтобы не испортить оригинал
 data_scaled = data_clean.copy()
@@ -49,7 +72,7 @@ print(data_scaled)
 
 
 # Сохранение в CSV
-data_scaled.to_csv('train_data_cleaned_scaled.csv', index=False)
+data_scaled.to_csv('tuned_data_scaled.csv', index=False)
 
 
 

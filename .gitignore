@@ -19,6 +19,7 @@ node_modules/
 *.log
 coverage/
 
+catboost_info/
 *.csv
 data
 train_data_cleaned_scaled.csv

@@ -33,23 +33,21 @@ The dataset for this competition (both train and test) was generated from a deep
 * **LGBMRegressor** - R² on the test sample: 0.7849, MAE on the test sample: 6.97
 * **HistGradientBoostingRegressor** - R² on the test sample: 0.7826, MAE on the test sample: 7.02
 * **DecisionTreeRegressor** - R² on the test sample: 0.7793, MAE on the test sample: 7.06
+* **CatBoost** - R² on the test sample: 0.7812, MAE on the test sample: 7.04
 * **VotingEnsemble(HistGradientBoostingRegressor, XGBRegressor, LGBMRegressor)** - R² on the test sample: 0.7853, MAE on
 the test sample: 6.97
 
-## Testing 1
-* Soon here will be some results
-
 ## Tuning data and model
-* Soon here will be some results
+* Tuning data check data_tuning.py and FeatureSelect.py.
 
-## Testing 2
-* Soon here will be some results
+* After added new features:
+![img_6.png](img_6.png)
+* After elimination:
+![img_5.png](img_5.png)
+* New features didn't improve final results - R² on the test sample: 0.7455, MAE on the test sample: 7.62
 
-## Create website for using
-* Soon here will be some results
+## Submission to kaggle:
+![img_8.png](img_8.png)
 
-## Deploy
-* Soon here will be some results
-
-## Monitoring
-* Soon here will be some results
+## Final:
+Best results was showed by LightGBM, VotingEnsemble(HistGradientBoostingRegressor, XGBRegressor, LGBMRegressor) turned out to be worse. Feature Engineering didn't improve quality of models prediction.

@@ -35,8 +35,11 @@ voting_ensemble.fit(X_train, y_train)  # модели переобучатся �
 
 y_pred_voting = voting_ensemble.predict(X_test)
 
-print(f"  R²: {r2_score(y_test, y_pred_voting):.4f}")
-print(f"  MAE: {mean_absolute_error(y_test, y_pred_voting):.2f}")
+test_r2 = r2_score(y_test, y_pred_voting)
+test_mae = mean_absolute_error(y_test, y_pred_voting)
+print(f'R² on the test sample: {test_r2:.4f}, MAE on the test sample: {test_mae:.2f}')
+#scores = cross_val_score(voting_ensemble, X_train, y_train, cv=5, scoring='r2')
+#print(f"CV R²: {scores.mean():.4f} (+/- {scores.std():.4f})")
 
 
 joblib.dump(voting_ensemble, 'voting_ensemble.pkl')

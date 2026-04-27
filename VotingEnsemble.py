@@ -9,9 +9,9 @@ import joblib
 
 # ========== 1. ЗАГРУЗКА СОХРАНЕННЫХ МОДЕЛЕЙ ==========
 models = {
-    'hgbr': joblib.load('HistGradientBoostingRegressor.pkl'),
-    'xgb': joblib.load('XGBRegressor.pkl'),
-    'lgbm': joblib.load('LGBMRegressor.pkl'),
+    'hgbr': joblib.load('models/HistGradientBoostingRegressor.pkl'),
+    'xgb': joblib.load('models/XGBRegressor.pkl'),
+    'lgbm': joblib.load('models/LGBMRegressor.pkl'),
 }
 
 print("✅ Модели загружены:")
@@ -19,7 +19,7 @@ for name, model in models.items():
     print(f"  - {name}: {type(model).__name__}")
 
 
-data = pd.read_csv('train_data_cleaned_scaled.csv')
+data = pd.read_csv('data/playground-series-s6e1/train_data_cleaned_scaled.csv')
 X = data.drop(['exam_score'], axis=1)
 y = data['exam_score']
 
@@ -42,5 +42,5 @@ print(f'R² on the test sample: {test_r2:.4f}, MAE on the test sample: {test_mae
 #print(f"CV R²: {scores.mean():.4f} (+/- {scores.std():.4f})")
 
 
-joblib.dump(voting_ensemble, 'voting_ensemble.pkl')
+joblib.dump(voting_ensemble, 'models/voting_ensemble.pkl')
 print("✅ Ансамбль сохранён в 'voting_ensemble.pkl'")

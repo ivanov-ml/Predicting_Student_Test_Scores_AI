@@ -8,7 +8,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import cross_val_score
 import joblib
 
-data = pd.read_csv('train_data_cleaned_scaled.csv')
+data = pd.read_csv('data/playground-series-s6e1/train_data_cleaned_scaled.csv')
 X = data.drop(['exam_score'], axis=1)
 y = data['exam_score']
 

@@ -4,11 +4,11 @@ from sklearn.preprocessing import StandardScaler
 
 # ========== 1. ЗАГРУЗКА МОДЕЛИ ==========
 print("Загрузка модели...")
-voting_ensemble = joblib.load('LGBMRegressor.pkl')
+voting_ensemble = joblib.load('models/LGBMRegressor.pkl')
 print("✅ Модель загружена")
 
 # ========== 2. ЗАГРУЗКА ТЕСТОВЫХ ДАННЫХ ==========
-row_data = pd.read_csv('/Users/dmitrii/PycharmProjects/Students_score/data/playground-series-s6e1/test.csv')
+row_data = pd.read_csv('data/playground-series-s6e1/test.csv')
 passenger_ids = row_data['id'].copy()
 
 # ========== 3. ПРЕДОБРАБОТКА ==========

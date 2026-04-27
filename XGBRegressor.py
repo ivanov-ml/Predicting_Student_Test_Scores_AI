@@ -8,7 +8,7 @@ import xgboost as xgb
 from sklearn.model_selection import cross_val_score
 import joblib
 
-data = pd.read_csv('tuned_data_scaled.csv')
+data = pd.read_csv('data/playground-series-s6e1/tuned_data_scaled.csv')
 X = data.drop(['exam_score'], axis=1)
 y = data['exam_score']
 

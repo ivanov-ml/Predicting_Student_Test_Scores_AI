@@ -22,5 +22,6 @@ coverage/
 catboost_info/
 *.csv
 data
-train_data_cleaned_scaled.csv
+data/playground-series-s6e1/train_data_cleaned_scaled.csv
 *.pkl
+models

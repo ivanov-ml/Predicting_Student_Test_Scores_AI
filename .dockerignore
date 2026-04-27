@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+.git
+data/
+.git
+catboost_info
+data
+venv
+.gitignore
+*.png
+README.md
+*.pkl
+*.joblib
+*.csv
+models

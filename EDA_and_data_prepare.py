@@ -2,6 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
+import joblib
 
 path_to_row_data = '/Users/dmitrii/PycharmProjects/Students_score/data/playground-series-s6e1/train.csv'
 row_data = pd.read_csv(path_to_row_data)
@@ -17,13 +18,9 @@ row_data['facility_rating'].replace({'low': 0, 'medium': 1, 'high': 2},  inplace
 row_data['sleep_quality'].replace({'poor': 0, 'average': 1, 'good': 2},  inplace=True)#заменяем на числа
 #print(row_data['internet_access'].unique())#все уникальные значения из столбца доступ в интернет
 row_data['internet_access'].replace({'no': 0, 'yes': 1},  inplace=True)#заменяем на числа
-
-#print(row_data.columns)
-corr_matrix = row_data.corr()# матрица корреляции по всем данным
-sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')#тепловая карта
-#plt.show()
-
 data_clean = row_data.drop(['id', 'age', 'gender', 'course', 'internet_access', 'exam_difficulty'], axis=1)#убрали маловажные признаки
+
+
 
 #print(data_clean.columns)
 corr_matrix_clean = data_clean.corr()# матрица корреляции по самым важным данным
@@ -41,7 +38,7 @@ data_scaled = data_clean.copy()
 # 3. Применяем StandardScaler только к выбранным столбцам
 scale = StandardScaler()
 data_scaled[features_to_scale] = scale.fit_transform(data_clean[features_to_scale])
-
+joblib.dump(scale, 'scaler.pkl')
 # Теперь в data_scaled признаки нормализованы, а exam_score остался прежним
 print(data_scaled)
 

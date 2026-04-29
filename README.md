@@ -49,5 +49,29 @@ the test sample: 6.97
 ## Submission to kaggle:
 ![img_8.png](images/img_8.png)
 
+## Deploy in Docker
+To deploy submission.py we need to create new directory *docker_build*, it contain:
+* .dockerignore
+* Dockerfile
+* LGBMRegressor.pkl
+* requirements.txt
+* scaler.pkl
+* submission.py
+* test.csv
+
+After install docker in terminal execute these commands:
+
+*cd (path to docker_build)*
+
+*docker build -t student-scores .*
+
+*docker run student-scores*
+
+After you will get your file *submission.csv* 
+
+
+
+
 ## Final:
-Best results was showed by LightGBM, VotingEnsemble(HistGradientBoostingRegressor, XGBRegressor, LGBMRegressor) turned out to be worse. Feature Engineering didn't improve quality of models prediction.
+Best results was showed by LightGBM(In docker - container), VotingEnsemble(HistGradientBoostingRegressor, XGBRegressor, LGBMRegressor) turned out to be worse. Feature Engineering didn't improve quality of models prediction. 
+![img.png](img.png)

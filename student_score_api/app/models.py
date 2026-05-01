@@ -18,6 +18,7 @@ class ScorePredictor:
 
         # Предсказываем
         prediction = self.model.predict(df)[0]
+        prediction = max(0, min(100, prediction))
         return round(prediction, 2)
 
 

@@ -75,3 +75,14 @@ After you will get your file *submission.csv*
 ## Final:
 Best results was showed by LightGBM(In docker - container), VotingEnsemble(HistGradientBoostingRegressor, XGBRegressor, LGBMRegressor) turned out to be worse. Feature Engineering didn't improve quality of models prediction. 
 ![img.png](img.png)
+
+
+## 🚀 Fast start (Docker Hub)
+
+**docker run -p 8000:8000 ivanovdmitrii2004/student-score-api:latest**
+
+To open:
+
+**http://localhost:8000**
+
+

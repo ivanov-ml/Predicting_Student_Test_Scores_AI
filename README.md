@@ -81,8 +81,24 @@ Best results was showed by LightGBM(In docker - container), VotingEnsemble(HistG
 
 **docker run -p 8000:8000 ivanovdmitrii2004/student-score-api:latest**
 
-To open:
+*To open:*
 
 **http://localhost:8000**
+
+*Results:*
+![img_2.png](img_2.png)
+
+
+
+## 🧪 Testing
+
+**cd student_score_api**
+
+**pytest tests/**
+
+
+
+*Results of testing:*
+![img_1.png](img_1.png)
 
 

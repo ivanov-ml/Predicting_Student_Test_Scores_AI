@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/33ee38f262da46efb41d59738b8820fa/artifacts
+end_time: 1782208979323
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 33ee38f262da46efb41d59738b8820fa
+run_name: fun-shrew-330
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1782208929074
+status: 4
+tags: []
+user_id: dmitrii

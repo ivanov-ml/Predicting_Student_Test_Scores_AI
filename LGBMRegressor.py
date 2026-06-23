@@ -1,44 +1,75 @@
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-from sklearn.datasets import make_regression
-import numpy as np
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.model_selection import train_test_split
 import lightgbm as lgb
-from sklearn.model_selection import cross_val_score
 import joblib
+import mlflow
+import mlflow.sklearn
 
+# 1. Загрузка данных
 data = pd.read_csv('data/playground-series-s6e1/train_data_cleaned_scaled.csv')
 X = data.drop(['exam_score'], axis=1)
 y = data['exam_score']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-model = lgb.LGBMRegressor(n_estimators=2000, learning_rate=0.05, verbose=0)
-model.fit(X_train, y_train)
+# 2. Параметры модели
+params = {
+    'n_estimators': 2000,
+    'learning_rate': 0.05,
+    'random_state': 42
+}
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+# 3. Обучение с логированием в MLflow
+with mlflow.start_run():
+    # Логируем параметры
+    mlflow.log_params(params)
 
-y_pred_train = model.predict(X_train)
-y_pred_test = model.predict(X_test)
+    # Обучаем модель
+    model = lgb.LGBMRegressor(**params, verbose=0)
+    model.fit(X_train, y_train)
 
-train_mse = mean_squared_error(y_train, y_pred_train)
-test_mse = mean_squared_error(y_test, y_pred_test)
-train_mae = mean_absolute_error(y_train, y_pred_train)
-test_mae = mean_absolute_error(y_test, y_pred_test)
-train_rmse = np.sqrt(mean_squared_error(y_train, y_pred_train))
-test_rmse = np.sqrt(mean_squared_error(y_test, y_pred_test))
-train_r2 = r2_score(y_train, y_pred_train)
-test_r2 = r2_score(y_test, y_pred_test)
+    # Предсказания
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
 
-print(f'MAE на обучающей выборке: {train_mae:.2f}')
-print(f'MAE на тестовой выборке: {test_mae:.2f}')
-print(f'MSE на обучающей выборке: {train_mse:.2f}')
-print(f'MSE на тестовой выборке: {test_mse:.2f}')
-print(f'RMSE на обучающей выборке: {train_rmse:.2f}')
-print(f'RMSE на тестовой выборке: {test_rmse:.2f}')
-print(f'R² на обучающей выборке: {train_r2:.4f}')
-print(f'R² на тестовой выборке: {test_r2:.4f}\n\n')
-print(f'R² on the test sample: {test_r2:.4f}, MAE on the test sample: {test_mae:.2f}')
-#scores = cross_val_score(model, X_train, y_train, cv=5, scoring='r2')
-#print(f"CV R²: {scores.mean():.4f} (+/- {scores.std():.4f})")
-model_name = 'LGBMRegressor.pkl'
-joblib.dump(model, model_name)
+    # Метрики
+    train_r2 = r2_score(y_train, y_pred_train)
+    test_r2 = r2_score(y_test, y_pred_test)
+    test_mae = mean_absolute_error(y_test, y_pred_test)
+    test_rmse = np.sqrt(mean_squared_error(y_test, y_pred_test))
+
+    # Логируем метрики
+    mlflow.log_metric("train_r2", train_r2)
+    mlflow.log_metric("test_r2", test_r2)
+    mlflow.log_metric("test_mae", test_mae)
+    mlflow.log_metric("test_rmse", test_rmse)
+
+    # Логируем важность признаков (график)
+    importance = model.feature_importances_
+    feature_names = X.columns
+    imp_df = pd.DataFrame({'feature': feature_names, 'importance': importance}).sort_values('importance',
+                                                                                            ascending=False)
+
+    plt.figure(figsize=(10, 6))
+    plt.barh(imp_df['feature'].head(10), imp_df['importance'].head(10))
+    plt.xlabel('Importance')
+    plt.title('Top 10 Feature Importances')
+    plt.tight_layout()
+    plt.savefig('feature_importance.png')
+    plt.close()
+
+    # Сохраняем график как артефакт
+    mlflow.log_artifact('feature_importance.png')
+
+    # Сохраняем модель (в формате MLflow)
+    mlflow.sklearn.log_model(model, "lgbm_model")
+
+    # Сохраняем модель через joblib (как ты делал)
+    joblib.dump(model, 'LGBMRegressor.pkl')
+    mlflow.log_artifact('LGBMRegressor.pkl')
+
+    # Вывод метрик в консоль
+    print(f"Train R²: {train_r2:.4f}, Test R²: {test_r2:.4f}, MAE: {test_mae:.2f}")
